@@ -45,24 +45,22 @@ void setup() {
 }
 
 String a; 
+bool display_msg;
 int x = matrix.width();
-int pass = 0;
 
 void loop() {
   while(Serial.available()) {
     a = Serial.readString()
-    Serial.println(a); 
+    display_msg = true
   }
-  matrix.fillScreen(0);
-  matrix.setCursor(x, 0);
-  matrix.print(F(a));
-  if(--x < -30
-  ) {
-    x = matrix.width();
 
-    if(++pass >= 8) pass = 0;
-    matrix.setTextColor(colors[pass]);
+  for(int i=0;display_msg && x < -30;i--) {
+    matrix.fillScreen(0);
+    matrix.setCursor(i, 0);
+    matrix.print(F(a));
+    matrix.show();
+    delay(30);
   }
-  matrix.show();
-  delay(30);
+  display_msg = false;
+  x = matrix.width()
 }
