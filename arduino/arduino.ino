@@ -24,43 +24,40 @@
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, PIN,
-  NEO_MATRIX_BOTTOM    + NEO_MATRIX_RIGHT +
+  NEO_MATRIX_TOP    + NEO_MATRIX_LEFT +
   NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
   NEO_GRB            + NEO_KHZ800);
 
-// Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, PIN,
-//   NEO_MATRIX_BOTTOM    + NEO_MATRIX_RIGHT +
-//   NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
-//   NEO_RGB            + NEO_KHZ400);
-
-const uint16_t colors[] = {
-  matrix.Color(255, 0, 0), matrix.Color(0, 255, 0), matrix.Color(255, 255, 0),matrix.Color(0, 0, 255), matrix.Color(255, 0, 255), matrix.Color(0, 255, 255), matrix.Color(255, 255, 255)};
+int baud = 9600;
+String a = "Null."; 
+int x = matrix.width();
+int refresh = 50;
+bool display_msg = false;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(baud);
   matrix.begin();
   matrix.setTextWrap(false);
-  matrix.setBrightness(5);
-  matrix.setTextColor(colors[0]);
+  matrix.setBrightness(30);
+  matrix.setTextColor(matrix.Color(255, 0, 0));
+  matrix.fillScreen(0);
+  matrix.show();
 }
 
-String a; 
-bool display_msg;
-int x = matrix.width();
-
 void loop() {
+  display_msg = false;
+  x = matrix.width();
   while(Serial.available()) {
-    a = Serial.readString()
-    display_msg = true
+    a = Serial.readString();
+    display_msg = true;
   }
 
-  for(int i=0;display_msg && x < -30;i--) {
+  while(display_msg && --x > ((int)a.length() * -9)) {
     matrix.fillScreen(0);
-    matrix.setCursor(i, 0);
-    matrix.print(F(a));
+    matrix.setCursor(x, 0);
+    matrix.print(a);
     matrix.show();
-    delay(30);
+    delay(refresh);
   }
-  display_msg = false;
-  x = matrix.width()
+  delay(refresh*5);
 }
