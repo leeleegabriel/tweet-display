@@ -5,7 +5,7 @@ import serial
 import sys
 from time import sleep
 
-port = "/dev/ttyACM0"
+port = "/dev/ttyS0"
 user = '@realDonaldTrump'
 
 def displayTweet(tweet):
@@ -35,6 +35,7 @@ if __name__ == "__main__":
 		print(e)
 		sys.exit(1)
 
+	print('test')
 	api = twitter.Api(
 	    consumer_key=api_key,
 	    consumer_secret=api_secret,
