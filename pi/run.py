@@ -7,9 +7,10 @@ from time import sleep
 
 port = "/dev/ttyAMA0"
 user = '@realDonaldTrump'
+baud = 115200
 
 def displayTweet(tweet):
-	with serial.Serial(port, 115200) as ser:
+	with serial.Serial(port, baud) as ser:
 		ser.write(tweet)
 	print('test2')
 
@@ -45,7 +46,7 @@ if __name__ == "__main__":
 	)
 
 	try:
-		with serial.Serial(port, 19200) as ser:
+		with serial.Serial(port, baud) as ser:
 			ser.write(b'booting...')
 	except Exception as e:
 		print(e)
