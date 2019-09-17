@@ -9,7 +9,7 @@ port = "/dev/ttyAMA0"
 user = '@realDonaldTrump'
 
 def displayTweet(tweet):
-	with serial.Serial(port, 9600) as ser:
+	with serial.Serial(port, 115200) as ser:
 		ser.write(tweet)
 	print('test2')
 
