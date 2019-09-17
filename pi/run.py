@@ -3,17 +3,23 @@
 import twitter
 import serial
 import sys
+import re
 from time import sleep
 
 port = "/dev/ttyAMA0"
 user = '@realDonaldTrump'
 baud = 115200
 
+
 def displayTweet(tweet):
 	with serial.Serial(port, baud) as ser:
-		ser.write(tweet)
-	print('test2')
+		ser.write(cleanTweet(input))
 
+
+def cleanTweet(input):
+	output = re.sub(r"http\S+", "", subject)
+	output = 
+	return output
 
 def main():
 	check_tweet = api.GetUserTimeline(screen_name=user)[0].text
@@ -36,7 +42,6 @@ if __name__ == "__main__":
 		print(e)
 		sys.exit(1)
 
-	print('test')
 	api = twitter.Api(
 	    consumer_key=api_key,
 	    consumer_secret=api_secret,
@@ -46,7 +51,7 @@ if __name__ == "__main__":
 
 	try:
 		with serial.Serial(port, baud) as ser:
-			ser.write(b'booting...')
+			ser.write(b'booting')
 	except Exception as e:
 		print(e)
 		sys.exit(1)
