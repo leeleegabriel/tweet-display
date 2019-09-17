@@ -54,12 +54,13 @@ void loop() {
     display_msg = true
   }
 
-  for(int i=0;display_msg && x < -30;i--) {
+  while(display_msg && x < -30) {
     matrix.fillScreen(0);
-    matrix.setCursor(i, 0);
+    matrix.setCursor(x, 0);
     matrix.print(F(a));
     matrix.show();
     delay(30);
+    x -= 1;
   }
   display_msg = false;
   x = matrix.width()
