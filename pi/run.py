@@ -5,7 +5,7 @@ import serial
 import sys
 from time import sleep
 
-port = "/dev/ttyS0"
+port = "/dev/ttyAMA0"
 user = '@realDonaldTrump'
 
 def displayTweet(tweet):
