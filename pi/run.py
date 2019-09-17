@@ -16,14 +16,13 @@ def displayTweet(tweet):
 
 
 def main():
-	# check_tweet = api.GetUserTimeline(screen_name=user)[0].text
-	# cur_tweet = ''
-	# while True:
-	# 	if check_tweet != cur_tweet:
-	# 		cur_tweet = check_tweet
-	# 		displayTweet(cur_tweet)
-	# 	sleep(1)
-	displayTweet(b"Hello World")
+	check_tweet = api.GetUserTimeline(screen_name=user)[0].text
+	cur_tweet = ''
+	while True:
+		if check_tweet != cur_tweet:
+			cur_tweet = check_tweet
+			displayTweet(cur_tweet)
+		sleep(30)
 
 
 if __name__ == "__main__":
