@@ -21,7 +21,7 @@ def main():
 	# 		cur_tweet = check_tweet
 	# 		displayTweet(cur_tweet)
 	# 	sleep(1)
-	displayTweet("Hello World")
+	displayTweet(str.encode("Hello World"))
 
 
 if __name__ == "__main__":
