@@ -11,6 +11,7 @@ user = '@realDonaldTrump'
 def displayTweet(tweet):
 	with serial.Serial(port, 9600) as ser:
 		ser.write(tweet)
+	print('test2')
 
 
 def main():
@@ -21,7 +22,7 @@ def main():
 	# 		cur_tweet = check_tweet
 	# 		displayTweet(cur_tweet)
 	# 	sleep(1)
-	displayTweet(str.encode("Hello World"))
+	displayTweet(b"Hello World")
 
 
 if __name__ == "__main__":
