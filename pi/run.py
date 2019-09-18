@@ -17,9 +17,7 @@ def displayTweet(tweet):
 
 
 def cleanTweet(input):
-	output = re.sub(r"http\S+", "", subject)
-	output = output.replace('','')
-	return output
+	return re.sub(r"http\S+", "", input)
 
 
 def main():
@@ -40,7 +38,7 @@ if __name__ == "__main__":
 			token_key = f.readline().strip()
 			token_secret = f.readline().strip()
 	except Exception as e:
-		print(e)
+		print(f'Failed to get API secrets: {e}')
 		sys.exit(1)
 
 	api = twitter.Api(
@@ -54,11 +52,11 @@ if __name__ == "__main__":
 		with serial.Serial(port, baud) as ser:
 			ser.write(b'booting')
 	except Exception as e:
-		print(e)
+		print(f'Unexpected error opening serial: {e}')
 		sys.exit(1)
 
 	try:
 		main()
 	except KeyboardInterrupt:
-		print()
+		print('Captured KeyboardInterrupt')
 		sys.exit(0)
