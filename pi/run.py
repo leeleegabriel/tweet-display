@@ -25,11 +25,10 @@ def main():
 	check_tweet = api.GetUserTimeline(screen_name=user)[0].text
 	cur_tweet = ''
 	while True:
-		print('test')
 		if check_tweet != cur_tweet:
 			cur_tweet = check_tweet
 			displayTweet(cur_tweet)
-		sleep(30)
+		sleep(60)
 
 
 if __name__ == "__main__":
