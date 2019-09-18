@@ -14,7 +14,7 @@ baud = 115200
 def displayTweet(tweet):
 	with serial.Serial(port, baud) as ser:
 		print(tweet)
-		ser.write(cleanTweet(tweet).encode())
+		ser.write(tweet.encode())
 
 
 def cleanTweet(input):
@@ -22,13 +22,14 @@ def cleanTweet(input):
 
 
 def main():
-	check_tweet = api.GetUserTimeline(screen_name=user)[0].text
+	check_tweet = cleanTweet(api.GetUserTimeline(screen_name=user)[0].text)
 	cur_tweet = ''
 	while True:
 		if check_tweet != cur_tweet:
 			cur_tweet = check_tweet
 			displayTweet(cur_tweet)
-		sleep(60)
+		check_tweet = cleanTweet(api.GetUserTimeline(screen_name=user)[0].text)
+		sleep(len(cur_tweet)*(8*0.04)) # 40 ms to refresh column * 8 columns for characters
 
 
 if __name__ == "__main__":
