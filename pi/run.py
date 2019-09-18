@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
 	try:
 		with serial.Serial(port, baud) as ser:
-			ser.write(b'booting')
+			pass
 	except Exception as e:
 		print(f'Unexpected error opening serial: {e}')
 		sys.exit(1)
