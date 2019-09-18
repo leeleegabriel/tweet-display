@@ -6,7 +6,7 @@ import sys
 import re
 from time import sleep
 
-port = "/dev/ttyAMA0"
+port = "/dev/ttyUSB0"
 user = '@realDonaldTrump'
 baud = 115200
 
