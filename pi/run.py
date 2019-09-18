@@ -13,13 +13,14 @@ baud = 115200
 
 def displayTweet(tweet):
 	with serial.Serial(port, baud) as ser:
-		ser.write(cleanTweet(input))
+		ser.write(cleanTweet(tweet))
 
 
 def cleanTweet(input):
 	output = re.sub(r"http\S+", "", subject)
-	output = 
+	output = output.replace('','')
 	return output
+
 
 def main():
 	check_tweet = api.GetUserTimeline(screen_name=user)[0].text
