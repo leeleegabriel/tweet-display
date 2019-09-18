@@ -28,8 +28,8 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, PIN,
   NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
   NEO_GRB            + NEO_KHZ800);
 
-int baud = 9600;
-String a = "Null."; 
+long baud = 115200;
+String a = "Null. ! @ # $ % ^ & * ( ) { } / /"; 
 int x = matrix.width();
 int refresh = 50;
 bool display_msg = false;
