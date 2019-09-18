@@ -6,20 +6,20 @@ import sys
 import re
 from time import sleep
 
-port = "/dev/ttyAMA0"
+port = "/dev/ttyUSB0"
 user = '@realDonaldTrump'
 baud = 115200
 
 
 def displayTweet(tweet):
 	with serial.Serial(port, baud) as ser:
-		ser.write(cleanTweet(input))
+		print(tweet)
+		ser.write(cleanTweet(tweet).encode())
 
 
 def cleanTweet(input):
-	output = re.sub(r"http\S+", "", subject)
-	output = 
-	return output
+	return re.sub(r"http\S+", "", input)
+
 
 def main():
 	check_tweet = api.GetUserTimeline(screen_name=user)[0].text
@@ -28,7 +28,7 @@ def main():
 		if check_tweet != cur_tweet:
 			cur_tweet = check_tweet
 			displayTweet(cur_tweet)
-		sleep(30)
+		sleep(60)
 
 
 if __name__ == "__main__":
@@ -39,7 +39,7 @@ if __name__ == "__main__":
 			token_key = f.readline().strip()
 			token_secret = f.readline().strip()
 	except Exception as e:
-		print(e)
+		print(f'Failed to get API secrets: {e}')
 		sys.exit(1)
 
 	api = twitter.Api(
@@ -51,13 +51,13 @@ if __name__ == "__main__":
 
 	try:
 		with serial.Serial(port, baud) as ser:
-			ser.write(b'booting')
+			pass
 	except Exception as e:
-		print(e)
+		print(f'Unexpected error opening serial: {e}')
 		sys.exit(1)
 
 	try:
 		main()
 	except KeyboardInterrupt:
-		print()
+		print('Captured KeyboardInterrupt')
 		sys.exit(0)

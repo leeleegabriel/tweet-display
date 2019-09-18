@@ -31,7 +31,7 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, PIN,
 long baud = 115200;
 String a = ""; 
 int x = matrix.width();
-int refresh = 50;
+int refresh = 40;
 bool display_msg = false;
 
 void setup() {
@@ -59,5 +59,5 @@ void loop() {
     matrix.show();
     delay(refresh);
   }
-  delay(refresh*5);
+  delay(refresh*10);
 }
