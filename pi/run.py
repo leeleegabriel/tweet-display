@@ -6,7 +6,8 @@ import sys
 import re
 from time import sleep
 
-port = "/dev/ttyUSB0"
+key_file = '/home/pi/twitter.key'
+port = '/dev/ttyUSB0'
 user = '@realDonaldTrump'
 baud = 115200
 
@@ -38,7 +39,7 @@ def main():
 
 if __name__ == "__main__":
 	try:
-		with open('twitter.key', 'r') as f:
+		with open(key_file, 'r') as f:
 			api_key = f.readline().strip()
 			api_secret = f.readline().strip()
 			token_key = f.readline().strip()
