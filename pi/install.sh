@@ -6,6 +6,7 @@ pip3 install pipenv
 pipenv install 
 
 cp run.py /usr/local/bin/tweet.py
+chmod +x /usr/local/bin/tweet.py
 
 sudo tee -a /etc/systemd/system/tweet.service > /dev/null <<EOT
 [Unit]
