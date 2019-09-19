@@ -18,11 +18,12 @@ def displayTweet(tweet):
 
 
 def getTweet():
-    query = api.GetUserTimeline(screen_name=user)
-    if(query and len(query) > 0 and query[0]):
-        return re.sub(r"http\S+", "", query[0].text)
-    else:
-        return False
+	query = api.GetUserTimeline(screen_name=user)
+	if(query and len(query) > 0 and query[0]):
+		return '* TRUMP ALERT * '+re.sub(r"http\S+", "", query[0].text)+' *'
+	else:
+		return False
+
 
 def main():
 	check_tweet = getTweet()
@@ -47,10 +48,10 @@ if __name__ == "__main__":
 		sys.exit(1)
 
 	api = twitter.Api(
-	    consumer_key=api_key,
-	    consumer_secret=api_secret,
-	    access_token_key=token_key,
-	    access_token_secret=token_secret
+		consumer_key=api_key,
+		consumer_secret=api_secret,
+		access_token_key=token_key,
+		access_token_secret=token_secret
 	)
 
 	try:
