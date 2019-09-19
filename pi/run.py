@@ -17,19 +17,22 @@ def displayTweet(tweet):
 		ser.write(tweet.encode())
 
 
-def cleanTweet(input):
-	return re.sub(r"http\S+", "", input)
-
+def getTweet():
+    query = api.GetUserTimeline(screen_name=user)
+    if(query and len(query) > 0 and query[0]):
+        return re.sub(r"http\S+", "", query[0].text)
+    else:
+        return False
 
 def main():
-	check_tweet = cleanTweet(api.GetUserTimeline(screen_name=user)[0].text)
+	check_tweet = getTweet()
 	cur_tweet = ''
 	while True:
-		if check_tweet != cur_tweet:
+		if check_tweet and check_tweet != cur_tweet:
 			cur_tweet = check_tweet
 			displayTweet(cur_tweet)
-		check_tweet = cleanTweet(api.GetUserTimeline(screen_name=user)[0].text)
-		sleep(len(cur_tweet)*(8*0.04)) # 40 ms to refresh column * 8 columns for characters
+		check_tweet = getTweet()
+		sleep(len(cur_tweet)*(8*0.04)) # 40 ms to refresh column * 8 columns for each character
 
 
 if __name__ == "__main__":
