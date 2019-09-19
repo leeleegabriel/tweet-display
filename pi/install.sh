@@ -8,7 +8,7 @@ pipenv install
 cp run.py /usr/local/bin/tweet.py
 chmod +x /usr/local/bin/tweet.py
 
-sudo tee -a /etc/systemd/system/tweet.service > /dev/null <<EOT
+sudo tee /etc/systemd/system/tweet.service > /dev/null <<EOT
 [Unit]
 Description=Twitter Alert
 After=network.target
