@@ -2,6 +2,12 @@
 
 set -e
 
+if [[ $UID != 0 ]]; then
+    echo "Please run this script with sudo:"
+    echo "sudo $0 $*"
+    exit 1
+fi
+
 sudo apt update -y && sudo apt upgrade -y
 sudo apt -y install python3-pip python3-dev python3-systemd
 
