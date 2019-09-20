@@ -34,7 +34,7 @@ def main():
 			cur_tweet = check_tweet
 			displayTweet(cur_tweet)
 		check_tweet = getTweet()
-		sleep(len(cur_tweet)*(12*0.04)) # 40 ms to refresh column * ~12 columns for each character
+		sleep(280*12*0.04) # 40 ms to refresh column * ~10 columns for each character
 
 
 if __name__ == "__main__":

@@ -52,7 +52,8 @@ void loop() {
     display_msg = true;
   }
 
-  while(display_msg && --x > ((int)a.length() * -9)) {
+  //while(display_msg && --x > ((int)a.length() * -9)) {
+  while(display_msg && --x > (280 * -10)) {  
     matrix.fillScreen(0);
     matrix.setCursor(x, 0);
     matrix.print(a);
