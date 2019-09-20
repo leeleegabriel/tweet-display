@@ -26,7 +26,7 @@ def displayTweet(tweet):
 def getTweet():
 	query = api.GetUserTimeline(screen_name=user)
 	if(query and len(query) > 0 and query[0]):
-		return '* TRUMP ALERT * '+re.sub(r"http\S+", "", query[0].text)+' *' # remove http links from tweet
+		return '*** TRUMP ALERT: * '+re.sub(r"http\S+", "", query[0].text)+' ***' # remove http links from tweet
 	else:
 		return False
 
@@ -39,7 +39,7 @@ def main():
 			cur_tweet = check_tweet
 			displayTweet(cur_tweet)
 		check_tweet = getTweet()
-		sleep(280*12*0.04 + 1) # 40 ms to refresh column * ~10 columns for each character * 280 characters + plus 1s for tx delay
+		sleep((280+23)*12*0.04 + 1) # 40 ms to refresh column * ~10 columns for each character * 280+23 characters + plus 1s for tx delay
 
 
 if __name__ == "__main__":
