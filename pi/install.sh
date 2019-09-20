@@ -2,6 +2,8 @@
 
 set -e
 
+sudo apt install python3-pip python3-dev python3-systemd
+
 pip3 install pipenv
 pipenv install 
 

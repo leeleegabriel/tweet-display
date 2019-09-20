@@ -4,6 +4,7 @@ import twitter
 import serial
 import sys
 import re
+import logging
 from time import sleep
 
 key_file = '/home/pi/twitter.key'
@@ -13,15 +14,18 @@ baud = 115200
 
 
 def displayTweet(tweet):
-	with serial.Serial(port, baud) as ser:
-		print(tweet)
-		ser.write(tweet.encode())
+	try:
+		with serial.Serial(port, baud) as ser:
+			ser.write(tweet.encode())
+	except Exception as e:
+		logger.exception(f'Failed to Open Serial Device: {e}')
+		sys.exit(1)
 
 
 def getTweet():
 	query = api.GetUserTimeline(screen_name=user)
 	if(query and len(query) > 0 and query[0]):
-		return '* TRUMP ALERT * '+re.sub(r"http\S+", "", query[0].text)+' *'
+		return '* TRUMP ALERT * '+re.sub(r"http\S+", "", query[0].text)+' *' # remove http links from tweet
 	else:
 		return False
 
@@ -34,10 +38,20 @@ def main():
 			cur_tweet = check_tweet
 			displayTweet(cur_tweet)
 		check_tweet = getTweet()
-		sleep(280*12*0.04) # 40 ms to refresh column * ~10 columns for each character
+		sleep(280*12*0.04 + 1) # 40 ms to refresh column * ~10 columns for each character * 280 characters + plus 1s for tx delay
 
 
 if __name__ == "__main__":
+
+	logging.basicConfig(level=logging.DEBUG)
+	logger = logging.getLogger()
+
+	try:
+		from systemd.daemon import journal
+		logger.addHandler(journal.JournaldLogHandler())
+	except:
+		logger.addHandler(logging.FileHandler('/var/log/twitter.log'))
+
 	try:
 		with open(key_file, 'r') as f:
 			api_key = f.readline().strip()
@@ -45,7 +59,7 @@ if __name__ == "__main__":
 			token_key = f.readline().strip()
 			token_secret = f.readline().strip()
 	except Exception as e:
-		print(f'Failed to get API secrets: {e}')
+		logger.exception(f'Failed to get API secrets: {e}')
 		sys.exit(1)
 
 	api = twitter.Api(
@@ -59,11 +73,8 @@ if __name__ == "__main__":
 		with serial.Serial(port, baud) as ser:
 			pass
 	except Exception as e:
-		print(f'Unexpected error opening serial: {e}')
+		logger.exception(f'Failed to Open Serial Device: {e}')
 		sys.exit(1)
 
-	try:
-		main()
-	except KeyboardInterrupt:
-		print('Captured KeyboardInterrupt')
-		sys.exit(0)
+	main()
+
