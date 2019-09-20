@@ -17,6 +17,7 @@ def displayTweet(tweet):
 	try:
 		with serial.Serial(port, baud) as ser:
 			ser.write(tweet.encode())
+			logger.debug(f'Transmitting: {tweet}')
 	except Exception as e:
 		logger.exception(f'Failed to Open Serial Device: {e}')
 		sys.exit(1)
@@ -47,8 +48,8 @@ if __name__ == "__main__":
 	logger = logging.getLogger()
 
 	try:
-		from systemd.daemon import journal
-		logger.addHandler(journal.JournaldLogHandler())
+		from systemd.journal import JournalHandler
+		logger.addHandler(JournalHandler(level=logging.DEBUG))
 	except:
 		logger.addHandler(logging.FileHandler('/var/log/twitter.log'))
 
@@ -62,19 +63,19 @@ if __name__ == "__main__":
 		logger.exception(f'Failed to get API secrets: {e}')
 		sys.exit(1)
 
-	api = twitter.Api(
-		consumer_key=api_key,
-		consumer_secret=api_secret,
-		access_token_key=token_key,
-		access_token_secret=token_secret
-	)
-
 	try:
 		with serial.Serial(port, baud) as ser:
 			pass
 	except Exception as e:
 		logger.exception(f'Failed to Open Serial Device: {e}')
 		sys.exit(1)
+
+	api = twitter.Api(
+		consumer_key=api_key,
+		consumer_secret=api_secret,
+		access_token_key=token_key,
+		access_token_secret=token_secret
+	)
 
 	main()
 
