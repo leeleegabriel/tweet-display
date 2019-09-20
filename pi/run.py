@@ -44,14 +44,14 @@ def main():
 
 if __name__ == "__main__":
 
-	logging.basicConfig(level=logging.DEBUG)
-	logger = logging.getLogger()
+	logger = logging.getLogger(__name__)
 
 	try:
 		from systemd.journal import JournalHandler
-		logger.addHandler(JournalHandler(level=logging.DEBUG))
+		logger.addHandler(JournalHandler())
 	except:
 		logger.addHandler(logging.FileHandler('/var/log/twitter.log'))
+	logger.setLevel(logging.DEBUG)
 
 	try:
 		with open(key_file, 'r') as f:
@@ -62,13 +62,15 @@ if __name__ == "__main__":
 	except Exception as e:
 		logger.exception(f'Failed to get API secrets: {e}')
 		sys.exit(1)
+	logger.info('Read API key')
 
 	try:
 		with serial.Serial(port, baud) as ser:
 			pass
 	except Exception as e:
-		logger.exception(f'Failed to Open Serial Device: {e}')
+		logger.exception(f'Failed to open serial device: {e}')
 		sys.exit(1)
+	logger.info('Connected to Arduino')
 
 	api = twitter.Api(
 		consumer_key=api_key,
