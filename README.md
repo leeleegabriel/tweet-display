@@ -19,7 +19,7 @@ Clone the repo on your pi and run:
 Wire the componenets as follows:
 
 <img src="doc/wiring.png" align="center"
-     title="Wiring Diagram" width="1200" height="800">
+     title="Wiring Diagram" width="1290" height="1075">
 
 Use a usb-to-tty adapter to wire the arduino to the pi.
 
