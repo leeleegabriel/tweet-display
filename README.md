@@ -13,7 +13,7 @@ Clone the repo on your pi and run:
   sudo install.sh
 ```
 
-Wire the componenets as follows:
+Wire the components as follows:
 
 <img src="doc/wiring.png" align="center" title="Wiring Diagram" width="1000" height="900">
 
