@@ -70,7 +70,7 @@ if __name__ == "__main__":
 	except Exception as e:
 		logger.exception(f'Failed to open serial device: {e}')
 		sys.exit(1)
-	logger.info('Connected to Arduino')
+	logger.info('Connected to arduino')
 
 	api = twitter.Api(
 		consumer_key=api_key,
