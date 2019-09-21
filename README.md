@@ -1,6 +1,6 @@
 # tweet-display
 
-Displays the four-five's tweets using a raspberrypi, arduino, and two 2812 8x32 led matrixes.
+Displays the big four-five's tweets using a raspberrypi, arduino, and two 2812 8x32 led matrixes.
 
 ### Installation
 
