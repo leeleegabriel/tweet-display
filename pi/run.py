@@ -13,7 +13,6 @@ baud = 115200
 
 def displayTweet(tweet):
 	with serial.Serial(port, baud) as ser:
-		print(tweet)
 		ser.write(cleanTweet(tweet).encode())
 
 
