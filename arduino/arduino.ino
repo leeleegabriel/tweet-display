@@ -51,8 +51,8 @@ void loop() {
     a = Serial.readString();
     display_msg = true;
   }
-
-  while(display_msg && --x > ((int)a.length() * -12)) {
+  //while(display_msg && --x > ((int)a.length() * -9)) {
+  while(display_msg && --x > ((280+20) * -12)) {  
     matrix.fillScreen(0);
     matrix.setCursor(x, 0);
     matrix.print(a);
