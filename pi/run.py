@@ -24,13 +24,13 @@ def displayTweet(tweet):
 
 
 def cleanTweet(input):
-	return re.sub(r"http\S+", "", input[0].text).replace('\"', '')
+	return re.sub(r"http\S+", "", input).replace('\"', '')
 
 
 def getTweet():
 	query = api.GetUserTimeline(screen_name=user)
-	if(query and len(query)>0 and query[0]):
-		tweet = cleanTweet(query[0])
+	if(query and len(query)>0 and query[0].text):
+		tweet = cleanTweet(query[0].text)
 		if(tweet and len(tweet) > 0):
 			return '*** TRUMP ALERT: '+ tweet +' ***'# remove http links from tweet
 	return False
