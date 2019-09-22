@@ -18,7 +18,7 @@ def displayTweet(tweet):
 
 
 def cleanTweet(input):
-	return re.sub(r"http\S+", "", input)
+	return re.sub(r"http\S+", "", input).replace('\"','')
 
 
 def main():
