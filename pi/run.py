@@ -55,7 +55,8 @@ if __name__ == "__main__":
 		from systemd.journal import JournalHandler
 		logger.addHandler(JournalHandler())
 	except Exception:
-		logger.addHandler(logging.FileHandler('/var/log/twitter.log'))
+		pass
+	logger.addHandler(logging.FileHandler('/var/log/twitter.log'))
 	logger.setLevel(logging.DEBUG)
 
 	try:
