@@ -23,7 +23,11 @@
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 
-Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, PIN,
+//Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, PIN,
+//  NEO_MATRIX_TOP    + NEO_MATRIX_LEFT +
+//  NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
+//  NEO_GRB            + NEO_KHZ800);
+Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(32, 8, 2, 1, PIN,
   NEO_MATRIX_TOP    + NEO_MATRIX_LEFT +
   NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
   NEO_GRB            + NEO_KHZ800);
@@ -31,7 +35,7 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, PIN,
 long baud = 115200;
 String a = ""; 
 int x = matrix.width();
-int refresh = 30;
+int refresh = 35;
 bool display_msg = false;
 
 void setup() {
