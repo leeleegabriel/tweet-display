@@ -39,6 +39,7 @@ def getTweet():
 def main():
 	check_tweet = getTweet()
 	cur_tweet = ''
+	print(check_tweet)
 	while True:
 		if check_tweet and check_tweet != cur_tweet:
 			cur_tweet = check_tweet
