@@ -39,13 +39,13 @@ def getTweet():
 def main():
 	check_tweet = getTweet()
 	cur_tweet = ''
-	print(check_tweet)
 	while True:
+		print(check_tweet)
 		if check_tweet and check_tweet != cur_tweet:
 			cur_tweet = check_tweet
 			displayTweet(cur_tweet)
 		check_tweet = getTweet()
-		sleep((280+20)*12*0.03 + 1)# 40 ms to refresh column * ~10 columns for each character * 280+23 characters + plus 1s for tx delay
+		sleep(30)# 40 ms to refresh column * ~10 columns for each character * 280+23 characters + plus 1s for tx delay
 
 
 if __name__ == "__main__":
@@ -57,7 +57,7 @@ if __name__ == "__main__":
 		logger.addHandler(JournalHandler())
 	except Exception:
 		pass
-	logger.addHandler(logging.FileHandler('/var/log/twitter.log'))
+	logger.addHandler(logging.FileHandler('/var/log/tweet.log'))
 	logger.setLevel(logging.DEBUG)
 
 	try:
