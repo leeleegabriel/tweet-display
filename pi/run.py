@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import twitter
 import serial
@@ -15,9 +15,9 @@ baud = 115200
 
 def displayTweet(tweet):
 	try:
+		logger.debug(f'Transmitting: {tweet}')
 		with serial.Serial(port, baud) as ser:
 			ser.write(tweet.encode())
-			logger.debug(f'Transmitting: {tweet}')
 	except Exception as e:
 		logger.exception(f'Failed to Open Serial Device: {e}')
 		sys.exit(1)
