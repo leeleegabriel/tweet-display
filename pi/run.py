@@ -15,9 +15,9 @@ baud = 115200
 
 def displayTweet(tweet):
 	try:
-		logger.debug(f'Transmitting: {tweet}')
 		with serial.Serial(port, baud) as ser:
 			ser.write(tweet.encode())
+		logger.debug(f'Finished Transmitting: {tweet}')
 	except Exception as e:
 		logger.exception(f'Failed to Open Serial Device: {e}')
 		sys.exit(1)
@@ -40,12 +40,11 @@ def main():
 	check_tweet = getTweet()
 	cur_tweet = ''
 	while True:
-		print(check_tweet)
 		if check_tweet and check_tweet != cur_tweet:
 			cur_tweet = check_tweet
 			displayTweet(cur_tweet)
 		check_tweet = getTweet()
-		sleep(30)# 40 ms to refresh column * ~10 columns for each character * 280+23 characters + plus 1s for tx delay
+		sleep(60)# 40 ms to refresh column * ~10 columns for each character * 280+23 characters + plus 1s for tx delay
 
 
 if __name__ == "__main__":
@@ -58,6 +57,7 @@ if __name__ == "__main__":
 	except Exception:
 		pass
 	logger.addHandler(logging.FileHandler('/var/log/tweet.log'))
+	logger.addHandler(logging.StreamHandler())
 	logger.setLevel(logging.DEBUG)
 
 	try:
