@@ -33,7 +33,7 @@ def getTweet():
 		tweet = cleanTweet(query[0].text)
 		if(tweet and len(tweet) > 0):
 			return '*** TRUMP ALERT: '+ tweet +' ***'# remove http links from tweet
-	return False
+	return "Test"
 
 
 def main():
