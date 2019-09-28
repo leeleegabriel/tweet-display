@@ -8,9 +8,9 @@ import logging
 from time import sleep
 
 key_file = '/home/pi/twitter.key'
-port = '/dev/serial0'
+port = '/dev/USB0'
 user = '@realDonaldTrump'
-baud = 115200
+baud = 9600
 
 
 def displayTweet(tweet):
