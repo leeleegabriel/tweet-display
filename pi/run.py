@@ -8,7 +8,7 @@ import logging
 from time import sleep
 
 key_file = '/home/pi/twitter.key'
-port = '/dev/USB0'
+port = '/dev/ttyUSB0'
 user = '@realDonaldTrump'
 baud = 9600
 
