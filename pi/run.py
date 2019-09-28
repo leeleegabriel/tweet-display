@@ -8,7 +8,7 @@ import logging
 from time import sleep
 
 key_file = '/home/pi/twitter.key'
-port = '/dev/serial0'
+port = '/dev/serial1'
 user = '@realDonaldTrump'
 baud = 115200
 
@@ -44,7 +44,7 @@ def main():
 			cur_tweet = check_tweet
 			displayTweet(cur_tweet)
 		check_tweet = getTweet()
-		sleep(60)# 40 ms to refresh column * ~10 columns for each character * 280+23 characters + plus 1s for tx delay
+		sleep(10)# 40 ms to refresh column * ~10 columns for each character * 280+23 characters + plus 1s for tx delay
 
 
 if __name__ == "__main__":
