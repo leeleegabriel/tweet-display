@@ -10,15 +10,13 @@ const char* ssid     = "";
 const char* password = "";
 ESP8266WebServer server(80);
 
-Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(32, 8, 2, 1, PIN,
+Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(32, 8, PIN,
   NEO_MATRIX_TOP    + NEO_MATRIX_LEFT +
   NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
   NEO_GRB            + NEO_KHZ800);
 
-String display = ""; 
-int x = matrix.width();
-int c = 0;
-int refresh = 35;
+const int refresh = 35;
+int x;
 
 void setup() {
 //  Serial.begin(115200);
@@ -32,14 +30,12 @@ void setup() {
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    display = "Waiting to connect . . . ";
-//    Serial.println(display);
-    matrix_scroll(25);
+//    Serial.println("Waiting to connect . . .");
+    display("Waiting to connect . . .");
   }
 
-  display = "Connected! " + WiFi.localIP().toString();
-  matrix_scroll(27);
-//  Serial.println(display);
+  display("Connected! " + WiFi.localIP().toString());
+//  Serial.println("Connected! " + WiFi.localIP().toString());
   server.on("/body", handleBody);
   server.begin();
 }
@@ -53,18 +49,17 @@ void handleBody() {
     server.send(200, "text/plain", "Body not received");
     return;
  }
- display = server.arg("plain");
- server.send(200, "text/plain", "Body received\n" + display + "\n");
-// Serial.println(display);
- matrix_scroll(300);
+ server.send(200, "text/plain", "Body received\n" + server.arg("plain") + "\n");
+// Serial.println(server.arg("plain"));
+ display(server.arg("plain"));
 }
 
-void matrix_scroll(int c) {
+void display(String msg) {
   x = matrix.width();
-  while(--x > (c * -12)) { 
+  while(--x > ((int)msg.length() * -12)) { 
     matrix.fillScreen(0);
     matrix.setCursor(x, 0);
-    matrix.print(display);
+    matrix.print(msg);
     matrix.show();
     delay(refresh);
   }  
