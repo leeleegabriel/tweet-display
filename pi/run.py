@@ -73,7 +73,7 @@ if __name__ == "__main__":
 
 	try:
 		with serial.Serial(port, baud) as ser:
-			pass
+			ser.write('Booting . . .'.enocde())
 	except Exception as e:
 		logger.exception(f'Failed to open serial device: {e}')
 		sys.exit(1)
