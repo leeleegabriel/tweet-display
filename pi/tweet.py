@@ -21,20 +21,14 @@ def display(msg, boot):
 		logger.debug(f'Finished Transmitting: {msg}')
 	except Exception as e:
 		logger.exception(f'Failed to connect to ESP8266: {e}')
-		if(boot):
-			sys.exit(1)
-		global cur_tweet
-		cur_tweet = ''
+		return False
 
-
-def cleanTweet(input):
-	return re.sub(r"http\S+", "", input).replace('\"', '')
 
 
 def getTweet():
 	query = api.GetUserTimeline(screen_name=user)
 	if(query and len(query)>0 and query[0].text):
-		tweet = cleanTweet(query[0].text)
+		tweet = re.sub(r"http\S+", "", query[0].text).replace('\"', '')
 		if(tweet and len(tweet) > 0):
 			return '*** TRUMP ALERT: '+tweet+' ***'# remove http links from tweet
 	return False
@@ -75,7 +69,6 @@ if __name__ == "__main__":
 
 	display("Booting Pi.", True)
 	sleep(10)
-
 	api = twitter.Api(
 		consumer_key=api_key,
 		consumer_secret=api_secret,

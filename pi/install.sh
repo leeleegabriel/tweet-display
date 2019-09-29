@@ -22,11 +22,11 @@ Description=Twitter Alert
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 -u /usr/local/bin/tweet.py
+ExecStart=/usr/bin/python3 -u tweet.py
 WorkingDirectory=/usr/local/bin
 StandardOutput=inherit
 StandardError=inherit
-Restart=always
+Restart=never
 User=root
 
 [Install]
