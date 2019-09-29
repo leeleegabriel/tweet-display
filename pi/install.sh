@@ -27,7 +27,7 @@ WorkingDirectory=/usr/local/bin
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
-User=pi
+User=root
 
 [Install]
 WantedBy=multi-user.target
