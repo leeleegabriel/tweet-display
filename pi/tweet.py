@@ -11,12 +11,10 @@ key_file = '/home/pi/twitter.key' 		# put your api key file here
 url = 'http://192.168.1.23:80/body'		# put your arduino's ip address here
 user = '@realDonaldTrump'				#
 
-cur_tweet = ''
-
-def display(msg, boot):
+def display(msg):
 	try:
 		res = requests.post(url=url, data=msg)
-		if(msg not in res.text):
+		if msg not in res.text:
 			raise requests.HTTPError(res.text)
 		logger.debug(f'Finished Transmitting: {msg}')
 	except Exception as e:
@@ -24,25 +22,26 @@ def display(msg, boot):
 		return False
 
 
-
 def getTweet():
 	query = api.GetUserTimeline(screen_name=user)
-	if(query and len(query)>0 and query[0].text):
-		tweet = re.sub(r"http\S+", "", query[0].text).replace('\"', '')
-		if(tweet and len(tweet) > 0):
-			return '*** TRUMP ALERT: '+tweet+' ***'# remove http links from tweet
+	if query and len(query)>0:
+		for tweet in query:
+			tweet = re.sub(r"http\S+", "", tweet.text).replace('\"', '')
+			if(tweet and len(tweet) > 0):
+				return '*** TRUMP ALERT: ' + tweet + ' ***'# remove http links from tweet
 	return False
 
 
 def main():
-	global cur_tweet
-	check_tweet = getTweet()
+	old_tweet = ''
+	new_tweet = getTweet()
 	while True:
-		if check_tweet and check_tweet != cur_tweet:
-			cur_tweet = check_tweet
-			display(cur_tweet, False)
-			sleep(float(len(cur_tweet)) * 0.035 * 12)	
-		check_tweet = getTweet()
+		if new_tweet and new_tweet != old_tweet:
+			display(new_tweet)
+			old_tweet = new_tweet
+			sleep(float(len(cur_tweet)) * 0.045 * 12.0)	
+		new_tweet = getTweet()
+		sleep(60)
 
 
 if __name__ == "__main__":
@@ -53,7 +52,7 @@ if __name__ == "__main__":
 	except Exception:
 		pass
 	logger.addHandler(logging.FileHandler('/var/log/tweet.log'))
-	#logger.addHandler(logging.StreamHandler())
+	logger.addHandler(logging.StreamHandler())
 	logger.setLevel(logging.DEBUG)
 
 	try:
@@ -67,13 +66,14 @@ if __name__ == "__main__":
 		sys.exit(1)
 	logger.info('Read API key')
 
-	display("Booting Pi.", True)
+	display("Booting Pi.")
 	sleep(10)
 	api = twitter.Api(
 		consumer_key=api_key,
 		consumer_secret=api_secret,
 		access_token_key=token_key,
-		access_token_secret=token_secret
+		access_token_secret=token_secret,
+		sleep_on_rate_limit=True
 	)
 
 	try:
