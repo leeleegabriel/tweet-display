@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import html
 import logging
 import re
 import requests
@@ -13,8 +14,8 @@ user = '@realDonaldTrump'				#
 
 def display(msg):
 	try:
-		res = requests.post(url=url, data=msg.encode('utf-8'))
-		if msg not in res.text:
+		res = requests.post(url=url, data=msg)
+		if 'Body received' not in res.text:
 			raise requests.HTTPError(res.text)
 		logger.debug(f'Finished Transmitting: {msg}')
 	except Exception as e:
@@ -26,7 +27,7 @@ def getTweet():
 	query = api.GetUserTimeline(screen_name=user)
 	if query and len(query)>0:
 		for tweet in query:
-			tweet = re.sub(r"http\S+", "", tweet.text).replace('\"', '')
+			tweet = html.unescape(re.sub(r"http\S+", "", tweet.text))
 			if(tweet and len(tweet) > 0):
 				return '*** TRUMP ALERT: ' + tweet + ' ***'# remove http links from tweet
 	return False
