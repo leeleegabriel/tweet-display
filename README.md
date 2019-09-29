@@ -1,6 +1,6 @@
 # tweet-display
 
-Displays the big four-five's tweets using a raspberrypi, arduino, and two 2812 8x32 led matrixes.
+Displays the big four-five's tweets using a raspberrypi 3, ESP8266, and one 2812 8x32 led matrixes.
 
 ### Installation
 
@@ -13,11 +13,6 @@ Clone the repo on your pi and run:
   sudo install.sh
 ```
 
-Wire the components as follows:
-
-<img src="doc/wiring.png" align="center" title="Wiring Diagram" width="1000" height="900">
-
-Use a usb-to-tty adapter to wire the arduino to the pi.
 
 
 
