@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import loggin
+import logging
 import re
 import requests
 import sys
