@@ -39,7 +39,7 @@ def main():
 		if new_tweet and new_tweet != old_tweet:
 			display(new_tweet)
 			old_tweet = new_tweet
-			sleep(float(len(cur_tweet)) * 0.045 * 12.0)	
+			sleep(float(len(new_tweet)) * 0.045 * 12.0)	
 		new_tweet = getTweet()
 		sleep(60)
 
