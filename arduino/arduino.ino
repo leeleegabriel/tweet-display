@@ -19,7 +19,7 @@ const int refresh = 35;
 int x;
 
 void setup() {
-//  Serial.begin(115200);
+  Serial.begin(115200);
   WiFi.begin(ssid, password);
   matrix.begin();
   matrix.setTextWrap(false);
@@ -30,12 +30,12 @@ void setup() {
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-//    Serial.println("Waiting to connect . . .");
+    Serial.println("Waiting to connect . . .");
     display("Waiting to connect . . .");
   }
 
   display("Connected! " + WiFi.localIP().toString());
-//  Serial.println("Connected! " + WiFi.localIP().toString());
+  Serial.println("Connected! " + WiFi.localIP().toString());
   server.on("/body", handleBody);
   server.begin();
 }
@@ -50,7 +50,7 @@ void handleBody() {
     return;
  }
  server.send(200, "text/plain", "Body received\n" + server.arg("plain") + "\n");
-// Serial.println(server.arg("plain"));
+ Serial.println(server.arg("plain"));
  display(server.arg("plain"));
 }
 
@@ -62,5 +62,5 @@ void display(String msg) {
     matrix.print(msg);
     matrix.show();
     delay(refresh);
-  }  
+  }
 }
