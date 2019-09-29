@@ -1,24 +1,20 @@
 #!/bin/bash
 
-set -e
-
 if [[ $UID != 0 ]]; then
     echo "Please run this script with  :"
     echo "  $0 $*"
     exit 1
 fi
 
+set -e
+
 apt update -y &&   apt upgrade -y
-apt -y install python3-pip python3-dev python3-systemd
+apt -y install python3 python3-pip python3-dev python3-systemd #python3-requests
 pip3 install pipenv
 pipenv install 
 
-
-cp run.py /usr/local/bin/tweet.py
+cp tweet.py /usr/local/bin/tweet.py
 chmod +x /usr/local/bin/tweet.py
-
-grep -qxF 'enable_uart=1' /boot/config.txt || echo 'enable_uart=1' >> /boot/config.txt
-sed -i -e '/searchstring/ s/console=serial0,115200/console=tty1/ ;' /boot/cmdline.txt
 
 tee /etc/systemd/system/tweet.service > /dev/null <<EOT
 [Unit]
@@ -39,5 +35,4 @@ EOT
 systemctl enable tweet.service
 systemctl start tweet.service
 
-echo "Install complete, rebooting . . . "
-reboot
+echo "Install complete"
