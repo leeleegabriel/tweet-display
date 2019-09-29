@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import logging
+import loggin
 import re
 import requests
 import sys
@@ -59,7 +59,7 @@ if __name__ == "__main__":
 	except Exception:
 		pass
 	logger.addHandler(logging.FileHandler('/var/log/tweet.log'))
-	logger.addHandler(logging.StreamHandler())
+	#logger.addHandler(logging.StreamHandler())
 	logger.setLevel(logging.DEBUG)
 
 	try:

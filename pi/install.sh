@@ -22,7 +22,7 @@ Description=Twitter Alert
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 -u tweet.py
+ExecStart=/usr/bin/python3 -u /usr/local/bin/tweet.py
 WorkingDirectory=/usr/local/bin
 StandardOutput=inherit
 StandardError=inherit
@@ -34,5 +34,6 @@ WantedBy=multi-user.target
 EOT
 systemctl enable tweet.service
 systemctl start tweet.service
+systemctl restart tweet.service
 
 echo "Install complete"
