@@ -13,7 +13,7 @@ user = '@realDonaldTrump'				#
 
 def display(msg):
 	try:
-		res = requests.post(url=url, data=msg)
+		res = requests.post(url=url, data=msg.encode('utf-8'))
 		if msg not in res.text:
 			raise requests.HTTPError(res.text)
 		logger.debug(f'Finished Transmitting: {msg}')
