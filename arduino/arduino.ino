@@ -27,7 +27,7 @@
 //  NEO_MATRIX_TOP    + NEO_MATRIX_LEFT +
 //  NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
 //  NEO_GRB            + NEO_KHZ800);
-Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(32, 8, 2, 1, PIN,
+Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(32, 8, PIN,
   NEO_MATRIX_TOP    + NEO_MATRIX_LEFT +
   NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
   NEO_GRB            + NEO_KHZ800);
@@ -63,5 +63,5 @@ void loop() {
     matrix.show();
     delay(refresh);
   }
-  delay(refresh*5);
+  delay(refresh);
 }
