@@ -16,13 +16,14 @@ cur_tweet = ''
 def display(msg, boot):
 	try:
 		res = requests.get(url=url, data=msg)
-		if(msg not in res.txt):
-			raise 
+		if(msg not in res.text):
+			raise requests.HTTPError(res.text)
 		logger.debug(f'Finished Transmitting: {msg}')
 	except Exception as e:
 		logger.exception(f'Failed to connect to ESP8266: {e}')
 		if(boot):
 			sys.exit(1)
+		global cur_tweet
 		cur_tweet = ''
 
 
@@ -40,6 +41,7 @@ def getTweet():
 
 
 def main():
+	global cur_tweet
 	check_tweet = getTweet()
 	while True:
 		if check_tweet and check_tweet != cur_tweet:
