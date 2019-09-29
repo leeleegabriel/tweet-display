@@ -1,26 +1,30 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import twitter
-import serial
-import sys
-import re
 import logging
+import re
+import requests
+import sys
+import twitter
 from time import sleep
 
-key_file = '/home/pi/twitter.key'
-port = '/dev/ttyUSB0'
-user = '@realDonaldTrump'
-baud = 115200
+key_file = '/home/pi/twitter.key' 		# put your api key file here
+url = 'http://192.168.1.23:80/body'		# put your arduino's ip address here
+user = '@realDonaldTrump'				#
 
+cur_tweet = ''
 
-def displayTweet(tweet):
+def display(msg, boot):
 	try:
-		with serial.Serial(port, baud) as ser:
-			ser.write(tweet.encode())
-			logger.debug(f'Transmitting: {tweet}')
+		res = requests.post(url=url, data=msg)
+		if(msg not in res.text):
+			raise requests.HTTPError(res.text)
+		logger.debug(f'Finished Transmitting: {msg}')
 	except Exception as e:
-		logger.exception(f'Failed to Open Serial Device: {e}')
-		sys.exit(1)
+		logger.exception(f'Failed to connect to ESP8266: {e}')
+		if(boot):
+			sys.exit(1)
+		global cur_tweet
+		cur_tweet = ''
 
 
 def cleanTweet(input):
@@ -32,30 +36,30 @@ def getTweet():
 	if(query and len(query)>0 and query[0].text):
 		tweet = cleanTweet(query[0].text)
 		if(tweet and len(tweet) > 0):
-			return '*** TRUMP ALERT: '+ tweet +' ***'# remove http links from tweet
+			return '*** TRUMP ALERT: '+tweet+' ***'# remove http links from tweet
 	return False
 
 
 def main():
+	global cur_tweet
 	check_tweet = getTweet()
-	cur_tweet = ''
 	while True:
 		if check_tweet and check_tweet != cur_tweet:
 			cur_tweet = check_tweet
-			displayTweet(cur_tweet)
+			display(cur_tweet, False)
+			sleep(float(len(cur_tweet)) * 0.035 * 12)	
 		check_tweet = getTweet()
-		sleep((280+20)*12*0.03 + 1)# 40 ms to refresh column * ~10 columns for each character * 280+23 characters + plus 1s for tx delay
 
 
 if __name__ == "__main__":
-
 	logger = logging.getLogger(__name__)
-
 	try:
 		from systemd.journal import JournalHandler
 		logger.addHandler(JournalHandler())
 	except Exception:
-		logger.addHandler(logging.FileHandler('/var/log/twitter.log'))
+		pass
+	logger.addHandler(logging.FileHandler('/var/log/tweet.log'))
+	logger.addHandler(logging.StreamHandler())
 	logger.setLevel(logging.DEBUG)
 
 	try:
@@ -69,13 +73,8 @@ if __name__ == "__main__":
 		sys.exit(1)
 	logger.info('Read API key')
 
-	try:
-		with serial.Serial(port, baud) as ser:
-			pass
-	except Exception as e:
-		logger.exception(f'Failed to open serial device: {e}')
-		sys.exit(1)
-	logger.info('Connected to arduino')
+	display("Booting Pi.", True)
+	sleep(10)
 
 	api = twitter.Api(
 		consumer_key=api_key,
@@ -84,4 +83,7 @@ if __name__ == "__main__":
 		access_token_secret=token_secret
 	)
 
-	main()
+	try:
+		main()
+	except KeyboardInterrupt as e:
+		logger.info('Detected keyboard interrupt, exiting . . . ')
