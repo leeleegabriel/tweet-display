@@ -8,14 +8,14 @@ import twitter
 from time import sleep
 
 key_file = '/home/pi/twitter.key' 		# put your api key file here
-url = "http://192.168.1.23:80/body"		# put your arduino's ip address here
-user = '@realDonaldTrump' 				#
+url = 'http://192.168.1.23:80/body'		# put your arduino's ip address here
+user = '@realDonaldTrump'				#
 
 cur_tweet = ''
 
 def display(msg, boot):
 	try:
-		res = requests.get(url=url, data=msg)
+		res = requests.post(url=url, data=msg)
 		if(msg not in res.text):
 			raise requests.HTTPError(res.text)
 		logger.debug(f'Finished Transmitting: {msg}')
