@@ -18,7 +18,7 @@ def display(msg):
 			raise requests.HTTPError(res.text)
 		logger.debug(f'Finished Transmitting: {msg}')
 	except Exception as e:
-		logger.exception(f'Failed to connect to ESP8266: {e}')
+		logger.exception(f'Failed to connect to ESP8266: {e}, {msg}')
 		return False
 
 
