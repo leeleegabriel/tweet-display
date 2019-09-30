@@ -8,8 +8,8 @@ import sys
 import twitter
 from time import sleep
 
-#key_file = '/home/pi/twitter.key' 		# put your api key file here
-key_file = 'twitter.key' 		# put your api key file here
+key_file = '/home/pi/twitter.key' 		# put your api key file here
+#key_file = 'twitter.key' 				# put your api key file here
 url = 'http://192.168.1.23:80/body'		# put your arduino's ip address here
 user = '@realDonaldTrump'				#
 
@@ -29,7 +29,7 @@ def cleanText(text):
 		msg = html.unescape(re.sub(r"http\S+", "", text)).encode("ascii", "ignore").decode("ascii")
 	except Exception as e:
 		logger.exception(f'Failed to clean text: {e}, {text}')
-		msg = False
+		raise e
 	return msg
 
 
@@ -41,7 +41,7 @@ def getText(tweet):
 			text = tweet.text
 		except Exception as e:
 			logger.exception(f'Failed to get text: {e}, {text}')
-			text = False
+			raise e
 	return text
 
 
@@ -49,11 +49,13 @@ def getTweet():
 	query = api.GetUserTimeline(screen_name=user)
 	if query and len(query)>0:
 		for tweet in query:
-			text = getText(tweet)
-			if text:
+			try:
+				text = getText(tweet)
 				msg = cleanText(text)
-				if msg and len(msg) > 0 and msg != "RT @realDonaldTrump: ":
+				if msg and len(msg.strip()) > 0 and msg != "RT @realDonaldTrump: ":
 					return '*** TRUMP ALERT: ' + msg + ' ***'# remove http links from tweet
+			except Exception as e:
+				pass
 	return False
 
 
