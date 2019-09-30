@@ -8,7 +8,8 @@ import sys
 import twitter
 from time import sleep
 
-key_file = '/home/pi/twitter.key' 		# put your api key file here
+#key_file = '/home/pi/twitter.key' 		# put your api key file here
+key_file = 'twitter.key' 		# put your api key file here
 url = 'http://192.168.1.23:80/body'		# put your arduino's ip address here
 user = '@realDonaldTrump'				#
 
@@ -23,13 +24,36 @@ def display(msg):
 		return False
 
 
+def cleanText(text):
+	try:
+		msg = html.unescape(re.sub(r"http\S+", "", text)).encode("ascii", "ignore").decode("ascii")
+	except Exception as e:
+		logger.exception(f'Failed to clean text: {e}, {text}')
+		msg = False
+	return msg
+
+
+def getText(tweet):
+	try:
+		text = tweet.full_text
+	except Exception as e:
+		try:
+			text = tweet.text
+		except Exception as e:
+			logger.exception(f'Failed to get text: {e}, {text}')
+			text = False
+	return text
+
+
 def getTweet():
 	query = api.GetUserTimeline(screen_name=user)
 	if query and len(query)>0:
 		for tweet in query:
-			tweet = html.unescape(re.sub(r"http\S+", "", tweet.text))
-			if(tweet and len(tweet) > 0):
-				return '*** TRUMP ALERT: ' + tweet + ' ***'# remove http links from tweet
+			text = getText(tweet)
+			if text:
+				msg = cleanText(text)
+				if msg and len(msg) > 0 and msg != "RT @realDonaldTrump: ":
+					return '*** TRUMP ALERT: ' + msg + ' ***'# remove http links from tweet
 	return False
 
 
@@ -52,7 +76,10 @@ if __name__ == "__main__":
 		logger.addHandler(JournalHandler())
 	except Exception:
 		pass
-	logger.addHandler(logging.FileHandler('/var/log/tweet.log'))
+	try:
+		logger.addHandler(logging.FileHandler('/var/log/tweet.log'))
+	except Exception:
+		pass
 	logger.addHandler(logging.StreamHandler())
 	logger.setLevel(logging.DEBUG)
 
@@ -74,7 +101,8 @@ if __name__ == "__main__":
 		consumer_secret=api_secret,
 		access_token_key=token_key,
 		access_token_secret=token_secret,
-		sleep_on_rate_limit=True
+		sleep_on_rate_limit=True,
+		tweet_mode= 'extended' #maybe not do full text?
 	)
 
 	try:
